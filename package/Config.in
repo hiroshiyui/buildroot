@@ -165,6 +165,7 @@ source "package/ltris/Config.in"
 source "package/opentyrian/Config.in"
 source "package/opentyrian-data/Config.in"
 source "package/prboom/Config.in"
+source "package/retroarch/Config.in"
 source "package/rubix/Config.in"
 endmenu
 
