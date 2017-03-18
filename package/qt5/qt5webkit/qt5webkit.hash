@@ -1,4 +1,5 @@
-# Hashes from: http://download.qt-project.org/official_releases/qt/5.3/5.3.2/submodules/qtwebkit-opensource-src-5.3.2.tar.xz.mirrorlist
-sha256 e47122ed15e8e1cc32e11b3cd89bacc056437215134a204899f2fddb4fd92e5b qtwebkit-opensource-src-5.3.2.tar.xz
-sha1   5ac040cd1fbf953ff9abc0502489bff8f4aa5ac2                         qtwebkit-opensource-src-5.3.2.tar.xz
-md5    0497b5b46540848e0db6a9e219d756fb                                 qtwebkit-opensource-src-5.3.2.tar.xz
+# Hash from: http://download.qt.io/snapshots/qt/5.6/5.6.2/latest_src/submodules/qtwebkit-opensource-src-5.6.2.tar.xz.mirrorlist
+sha256 528a6b8b1c5095367b26e8ce4f3a46bb739e2e9913ff4dfc6ef58a04fcd73966 qtwebkit-opensource-src-5.6.2.tar.xz
+
+# Hash from: http://download.qt.io/official_releases/qt/5.8/5.8.0/submodules/qtwebkit-opensource-src-5.8.0.tar.xz
+sha256 79ae8660086bf92ffb0008b17566270e6477c8fa0daf9bb3ac29404fb5911bec  qtwebkit-opensource-src-5.8.0.tar.xz

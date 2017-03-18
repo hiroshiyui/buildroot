@@ -4,13 +4,22 @@
 #
 ################################################################################
 
-MPD_VERSION_MAJOR = 0.19
-MPD_VERSION = $(MPD_VERSION_MAJOR).3
+MPD_VERSION_MAJOR = $(call qstrip,$(BR2_PACKAGE_MPD_VERSION_STRING))
+ifeq ($(BR2_PACKAGE_MPD_VERSION_0_20),y)
+MPD_VERSION = $(MPD_VERSION_MAJOR).4
+else
+MPD_VERSION = $(MPD_VERSION_MAJOR).21
+endif
 MPD_SOURCE = mpd-$(MPD_VERSION).tar.xz
 MPD_SITE = http://www.musicpd.org/download/mpd/$(MPD_VERSION_MAJOR)
-MPD_DEPENDENCIES = host-pkgconf boost libglib2
+MPD_DEPENDENCIES = host-pkgconf boost
 MPD_LICENSE = GPLv2+
 MPD_LICENSE_FILES = COPYING
+MPD_AUTORECONF = YES
+
+ifeq ($(BR2_PACKAGE_MPD_VERSION_0_19),y)
+MPD_DEPENDENCIES += libglib2
+endif
 
 # Some options need an explicit --disable or --enable
 
@@ -92,6 +101,12 @@ else
 MPD_CONF_OPTS += --disable-flac
 endif
 
+ifeq ($(BR2_PACKAGE_MPD_HTTPD_OUTPUT),y)
+MPD_CONF_OPTS += --enable-httpd-output
+else
+MPD_CONF_OPTS += --disable-httpd-output
+endif
+
 ifeq ($(BR2_PACKAGE_MPD_JACK2),y)
 MPD_DEPENDENCIES += jack2
 MPD_CONF_OPTS += --enable-jack
@@ -114,7 +129,7 @@ MPD_CONF_OPTS += --disable-nfs
 endif
 
 ifeq ($(BR2_PACKAGE_MPD_LIBSMBCLIENT),y)
-MPD_DEPENDENCIES += samba
+MPD_DEPENDENCIES += samba4
 MPD_CONF_OPTS += --enable-smbclient
 else
 MPD_CONF_OPTS += --disable-smbclient
@@ -162,6 +177,12 @@ else
 MPD_CONF_OPTS += --disable-mpc
 endif
 
+ifeq ($(BR2_PACKAGE_MPD_NEIGHBOR_DISCOVERY_SUPPORT),y)
+MPD_CONF_OPTS += --enable-neighbor-plugins
+else
+MPD_CONF_OPTS += --disable-neighbor-plugins
+endif
+
 ifeq ($(BR2_PACKAGE_MPD_OPUS),y)
 MPD_DEPENDENCIES += opus libogg
 MPD_CONF_OPTS += --enable-opus
@@ -169,11 +190,24 @@ else
 MPD_CONF_OPTS += --disable-opus
 endif
 
+ifeq ($(BR2_PACKAGE_MPD_OSS),y)
+MPD_CONF_OPTS += --enable-oss
+else
+MPD_CONF_OPTS += --disable-oss
+endif
+
 ifeq ($(BR2_PACKAGE_MPD_PULSEAUDIO),y)
 MPD_DEPENDENCIES += pulseaudio
 MPD_CONF_OPTS += --enable-pulse
 else
 MPD_CONF_OPTS += --disable-pulse
+endif
+
+ifeq ($(BR2_PACKAGE_MPD_SHOUTCAST),y)
+MPD_DEPENDENCIES += libshout
+MPD_CONF_OPTS += --enable-shout
+else
+MPD_CONF_OPTS += --disable-shout
 endif
 
 ifeq ($(BR2_PACKAGE_MPD_SOUNDCLOUD),y)
@@ -196,7 +230,10 @@ endif
 
 ifeq ($(BR2_PACKAGE_MPD_TREMOR),y)
 MPD_DEPENDENCIES += tremor
-MPD_CONF_OPTS += --with-tremor
+# Help mpd to find tremor in static linking scenarios
+MPD_CONF_ENV += \
+	TREMOR_LIBS="`$(PKG_CONFIG_HOST_BINARY) --libs vorbisidec`"
+MPD_CONF_OPTS += --with-tremor=$(STAGING_DIR)/usr
 endif
 
 ifeq ($(BR2_PACKAGE_MPD_TWOLAME),y)
@@ -228,14 +265,14 @@ MPD_CONF_OPTS += --disable-wavpack
 endif
 
 define MPD_INSTALL_EXTRA_FILES
-	@if [ ! -f $(TARGET_DIR)/etc/mpd.conf ]; then \
-		$(INSTALL) -D package/mpd/mpd.conf \
-			$(TARGET_DIR)/etc/mpd.conf; \
-	fi
-	$(INSTALL) -m 0755 -D package/mpd/S95mpd \
-		$(TARGET_DIR)/etc/init.d/S95mpd
+	$(INSTALL) -m 0644 -D package/mpd/mpd.conf $(TARGET_DIR)/etc/mpd.conf
 endef
 
 MPD_POST_INSTALL_TARGET_HOOKS += MPD_INSTALL_EXTRA_FILES
+
+define MPD_INSTALL_INIT_SYSV
+	$(INSTALL) -m 0755 -D package/mpd/S95mpd \
+		$(TARGET_DIR)/etc/init.d/S95mpd
+endef
 
 $(eval $(autotools-package))

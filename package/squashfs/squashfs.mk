@@ -4,14 +4,12 @@
 #
 ################################################################################
 
-SQUASHFS_VERSION = 4.3
-SQUASHFS_SOURCE = squashfs$(SQUASHFS_VERSION).tar.gz
-SQUASHFS_SITE = http://downloads.sourceforge.net/project/squashfs/squashfs/squashfs$(SQUASHFS_VERSION)
+SQUASHFS_VERSION = 3de1687d7432ea9b302c2db9521996f506c140a3
+SQUASHFS_SITE = https://git.kernel.org/pub/scm/fs/squashfs/squashfs-tools.git
+SQUASHFS_SITE_METHOD = git
 SQUASHFS_LICENSE = GPLv2+
 SQUASHFS_LICENSE_FILES = COPYING
-
-# no libattr in BR
-SQUASHFS_MAKE_ARGS = XATTR_SUPPORT=0
+SQUASHFS_MAKE_ARGS = XATTR_SUPPORT=1
 
 ifeq ($(BR2_PACKAGE_SQUASHFS_LZ4),y)
 SQUASHFS_DEPENDENCIES += lz4
@@ -50,9 +48,8 @@ endif
 
 HOST_SQUASHFS_DEPENDENCIES = host-zlib host-lz4 host-lzo host-xz
 
-# no libattr/xz in BR
 HOST_SQUASHFS_MAKE_ARGS = \
-	XATTR_SUPPORT=0 \
+	XATTR_SUPPORT=1 \
 	XZ_SUPPORT=1    \
 	GZIP_SUPPORT=1  \
 	LZ4_SUPPORT=1	\
