@@ -7,56 +7,56 @@ RETROARCH_VERSION = 2755abc14fe25b9f32e145dcf6ec5c9569640eb8
 RETROARCH_SITE = https://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
-RETROARCH_CONF_OPT += --disable-netplay --disable-oss --disable-bsv_movie
+RETROARCH_CONF_OPTS += --disable-netplay --disable-oss --disable-bsv_movie
 RETROARCH_DEPENDENCIES = host-pkgconf
 
 ifeq ($(BR2_PACKAGE_SDL),y)
-RETROARCH_CONF_OPT += --enable-sdl
+RETROARCH_CONF_OPTS += --enable-sdl
 RETROARCH_DEPENDENCIES += sdl
 else
-RETROARCH_CONF_OPT += --disable-sdl
+RETROARCH_CONF_OPTS += --disable-sdl
 endif
 
 ifeq ($(BR2_PACKAGE_PYTHON),y)
-RETROARCH_CONF_OPT += --enable-python
+RETROARCH_CONF_OPTS += --enable-python
 RETROARCH_DEPENDENCIES += python
 else
-RETROARCH_CONF_OPT += --disable-python
+RETROARCH_CONF_OPTS += --disable-python
 endif
 
 ifeq ($(BR2_PACKAGE_XORG7),y)
-RETROARCH_CONF_OPT += --enable-x11
+RETROARCH_CONF_OPTS += --enable-x11
 RETROARCH_DEPENDENCIES += x11r7
 else
-RETROARCH_CONF_OPT += --disable-x11
+RETROARCH_CONF_OPTS += --disable-x11
 endif
 
 ifeq ($(BR2_PACKAGE_ALSA_LIB),y)
-RETROARCH_CONF_OPT += --enable-alsa
+RETROARCH_CONF_OPTS += --enable-alsa
 RETROARCH_DEPENDENCIES += alsa-lib
 else
-RETROARCH_CONF_OPT += --disable-alsa
+RETROARCH_CONF_OPTS += --disable-alsa
 endif
 
 ifeq ($(BR2_PACKAGE_PULSEAUDIO),y)
-RETROARCH_CONF_OPT += --enable-pulse
+RETROARCH_CONF_OPTS += --enable-pulse
 RETROARCH_DEPENDENCIES += pulseaudio
 else
-RETROARCH_CONF_OPT += --disable-pulse
+RETROARCH_CONF_OPTS += --disable-pulse
 endif
 
 ifeq ($(BR2_PACKAGE_HAS_LIBGLES),y)
-RETROARCH_CONF_OPT += --enable-gles
+RETROARCH_CONF_OPTS += --enable-gles
 RETROARCH_DEPENDENCIES += libgles
 else
-RETROARCH_CONF_OPT += --disable-gles
+RETROARCH_CONF_OPTS += --disable-gles
 endif
 
 ifeq ($(BR2_PACKAGE_HAS_LIBEGL),y)
-RETROARCH_CONF_OPT += --enable-egl
+RETROARCH_CONF_OPTS += --enable-egl
 RETROARCH_DEPENDENCIES += libegl
 else
-RETROARCH_CONF_OPT += --disable-egl
+RETROARCH_CONF_OPTS += --disable-egl
 endif
 
 ifeq ($(BR2_PACKAGE_HAS_LIBOPENVG),y)
@@ -64,17 +64,17 @@ RETROARCH_DEPENDENCIES += libopenvg
 endif
 
 ifeq ($(BR2_PACKAGE_LIBXML2),y)
-RETROARCH_CONF_OPT += --enable-libxml2
+RETROARCH_CONF_OPTS += --enable-libxml2
 RETROARCH_DEPENDENCIES += libxml2
 else
-RETROARCH_CONF_OPT += --disable-libxml2
+RETROARCH_CONF_OPTS += --disable-libxml2
 endif
 
 ifeq ($(BR2_PACKAGE_ZLIB),y)
-RETROARCH_CONF_OPT += --enable-zlib
+RETROARCH_CONF_OPTS += --enable-zlib
 RETROARCH_DEPENDENCIES += zlib
 else
-RETROARCH_CONF_OPT += --disable-zlib
+RETROARCH_CONF_OPTS += --disable-zlib
 endif
 
 ifeq ($(BR2_PACKAGE_UDEV),y)
@@ -82,10 +82,10 @@ RETROARCH_DEPENDENCIES += udev
 endif
 
 ifeq ($(BR2_PACKAGE_FREETYPE),y)
-RETROARCH_CONF_OPT += --enable-freetype
+RETROARCH_CONF_OPTS += --enable-freetype
 RETROARCH_DEPENDENCIES += freetype
 else
-RETROARCH_CONF_OPT += --disable-freetype
+RETROARCH_CONF_OPTS += --disable-freetype
 endif
 
 define RETROARCH_CONFIGURE_CMDS
@@ -96,7 +96,7 @@ define RETROARCH_CONFIGURE_CMDS
 		LDFLAGS="$(TARGET_LDFLAGS) -lc" \
 		./configure \
 		--prefix=/usr \
-		$(RETROARCH_CONF_OPT) \
+		$(RETROARCH_CONF_OPTS) \
 	)
 endef
 
