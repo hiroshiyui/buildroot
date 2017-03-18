@@ -4,7 +4,7 @@
 #
 ################################################################################
 ARMSNES_VERSION = 0.2
-ARMSNES_SITE = https://github.com/rmaz/ARMSNES-libretro/archive
+ARMSNES_SITE = https://github.com/RetroPie/ARMSNES-libretro/archive
 ARMSNES_SOURCE = 0.2.tar.gz
 ARMSNES_TARGET = libarmsnes.so
 
