@@ -3,11 +3,11 @@
 # retroarch
 #
 ################################################################################
-RETROARCH_VERSION = 2755abc14fe25b9f32e145dcf6ec5c9569640eb8
+RETROARCH_VERSION = 51581e1578d8569217c2ec993734667a1d49cdb0
 RETROARCH_SITE = https://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
-RETROARCH_CONF_OPTS += --disable-netplay --disable-oss --disable-bsv_movie
+RETROARCH_CONF_OPTS += --disable-oss
 RETROARCH_DEPENDENCIES = host-pkgconf
 
 ifeq ($(BR2_PACKAGE_SDL),y)
@@ -46,10 +46,10 @@ RETROARCH_CONF_OPTS += --disable-pulse
 endif
 
 ifeq ($(BR2_PACKAGE_HAS_LIBGLES),y)
-RETROARCH_CONF_OPTS += --enable-gles
+RETROARCH_CONF_OPTS += --enable-opengles
 RETROARCH_DEPENDENCIES += libgles
 else
-RETROARCH_CONF_OPTS += --disable-gles
+RETROARCH_CONF_OPTS += --disable-opengles
 endif
 
 ifeq ($(BR2_PACKAGE_HAS_LIBEGL),y)
@@ -94,6 +94,7 @@ define RETROARCH_CONFIGURE_CMDS
 		$(TARGET_CONFIGURE_OPTS) \
 		CFLAGS="$(TARGET_CFLAGS)" \
 		LDFLAGS="$(TARGET_LDFLAGS) -lc" \
+		CROSS_COMPILE="unknown" \
 		./configure \
 		--prefix=/usr \
 		$(RETROARCH_CONF_OPTS) \
