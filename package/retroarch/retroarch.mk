@@ -9,6 +9,9 @@ RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
 RETROARCH_CONF_OPTS += --disable-oss
 RETROARCH_DEPENDENCIES = host-pkgconf
+RETROARCH_INCLUDES=-I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/interface/vcos/pthreads -I$(STAGING_DIR)/usr/include/interface/vmcs_host/linux
+RETROARCH_CFLAGS= -DARM_ARCH -DRPI_BUILD -Wall $(RETROARCH_INCLUDES)
+RETROARCH_LIBS= -ldl -lpthread -lz -L$(STAGING_DIR)/usr/lib -lGLESv2 -lEGL -lopenmaxil -lbcm_host -lvcos -lvchiq_arm -lrt -lvchostif
 
 ifeq ($(BR2_PACKAGE_SDL),y)
 RETROARCH_CONF_OPTS += --enable-sdl
@@ -92,8 +95,8 @@ define RETROARCH_CONFIGURE_CMDS
 	(cd $(@D); rm -rf config.cache; \
 		$(TARGET_CONFIGURE_ARGS) \
 		$(TARGET_CONFIGURE_OPTS) \
-		CFLAGS="$(TARGET_CFLAGS)" \
-		LDFLAGS="$(TARGET_LDFLAGS) -lc" \
+		CFLAGS="$(RETROARCH_CFLAGS)" \
+		LDFLAGS="$(RETROARCH_LIBS) -lc" \
 		CROSS_COMPILE="unknown" \
 		./configure \
 		--prefix=/usr \
