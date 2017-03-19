@@ -7,18 +7,14 @@ RETROARCH_VERSION = 51581e1578d8569217c2ec993734667a1d49cdb0
 RETROARCH_SITE = https://github.com/libretro/RetroArch.git
 RETROARCH_SITE_METHOD = git
 RETROARCH_LICENSE = GPLv3+
-RETROARCH_CONF_OPTS += --disable-oss
-RETROARCH_DEPENDENCIES = host-pkgconf
+RETROARCH_CONF_OPTS += --disable-oss --enable-sdl
+RETROARCH_DEPENDENCIES = host-pkgconf sdl
+SDL_CONFIG=$(STAGING_DIR)/usr/bin/sdl-config
+SDL_FLAGS=`$(SDL_CONFIG) --cflags`
+SDL_LIBS=`$(SDL_CONFIG) --libs`
 RETROARCH_INCLUDES=-I$(STAGING_DIR)/usr/include -I$(STAGING_DIR)/usr/include/interface/vcos/pthreads -I$(STAGING_DIR)/usr/include/interface/vmcs_host/linux
-RETROARCH_CFLAGS= -DARM_ARCH -DRPI_BUILD -Wall $(RETROARCH_INCLUDES)
-RETROARCH_LIBS= -ldl -lpthread -lz -L$(STAGING_DIR)/usr/lib -lGLESv2 -lEGL -lopenmaxil -lbcm_host -lvcos -lvchiq_arm -lrt -lvchostif
-
-ifeq ($(BR2_PACKAGE_SDL),y)
-RETROARCH_CONF_OPTS += --enable-sdl
-RETROARCH_DEPENDENCIES += sdl
-else
-RETROARCH_CONF_OPTS += --disable-sdl
-endif
+RETROARCH_CFLAGS= -DARM_ARCH -DRPI_BUILD -Wall $(SDL_FLAGS) $(RETROARCH_INCLUDES)
+RETROARCH_LIBS= -ldl -lpthread -lz -L$(STAGING_DIR)/usr/lib $(SDL_LIBS) -lGLESv2 -lEGL -lopenmaxil -lbcm_host -lvcos -lvchiq_arm -lrt -lvchostif
 
 ifeq ($(BR2_PACKAGE_PYTHON),y)
 RETROARCH_CONF_OPTS += --enable-python
