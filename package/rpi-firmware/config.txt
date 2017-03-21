@@ -16,5 +16,22 @@ disable_overscan=1
 # How much memory in MB to assign to the GPU on Pi models having
 # 256, 512 or 1024 MB total memory
 gpu_mem_256=100
-gpu_mem_512=100
-gpu_mem_1024=100
+gpu_mem_512=192
+gpu_mem_1024=384
+
+# Force the monitor to HDMI mode so that sound will be sent over HDMI cable
+hdmi_drive=2
+# Set monitor mode to DMT
+hdmi_group=2
+
+# if set to 1, avoids the rainbow splash screen on boot
+disable_splash=1
+
+# Frequency of ARM in MHz.
+arm_freq=800
+
+# Set to "on" to enable the onboard ALSA audio interface (default "off")
+dtparam=audio=on
+
+# enable DT diagnostic output
+dtdebug=on
