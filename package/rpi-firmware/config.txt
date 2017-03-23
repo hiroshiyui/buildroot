@@ -21,8 +21,10 @@ gpu_mem_1024=256
 
 # Force the monitor to HDMI mode so that sound will be sent over HDMI cable
 hdmi_drive=2
-# Set monitor mode to DMT
-hdmi_group=2
+# Set monitor mode 1: CEA, 2:DMT
+hdmi_group=1
+# 4: 720p/60 Hz in CEA mode
+hdmi_mode=4
 
 # if set to 1, avoids the rainbow splash screen on boot
 disable_splash=1
