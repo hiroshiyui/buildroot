@@ -15,9 +15,9 @@ disable_overscan=1
 
 # How much memory in MB to assign to the GPU on Pi models having
 # 256, 512 or 1024 MB total memory
-gpu_mem_256=100
-gpu_mem_512=192
-gpu_mem_1024=384
+gpu_mem_256=64
+gpu_mem_512=128
+gpu_mem_1024=256
 
 # Force the monitor to HDMI mode so that sound will be sent over HDMI cable
 hdmi_drive=2
@@ -32,6 +32,7 @@ arm_freq=800
 core_freq=250
 sdram_freq=500
 temp_limit=85
+force_turbo=1
 
 # Set to "on" to enable the onboard ALSA audio interface (default "off")
 dtparam=audio=on
