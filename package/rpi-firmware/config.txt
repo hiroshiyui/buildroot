@@ -42,5 +42,8 @@ dtparam=audio=on
 # Set to "on" to enable the hardware watchdog (default "off")
 dtparam=watchdog=off
 
+# https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=159853
+dtoverlay=vc4-fkms-v3d
+
 # enable DT diagnostic output
 dtdebug=on
