@@ -1,5 +1,7 @@
 config BR2_PACKAGE_SDL
 	bool "SDL"
+	depends on BR2_PACKAGE_RPI_FIRMWARE
+	depends on BR2_PACKAGE_RPI_USERLAND
 	help
 	  Simple DirectMedia Layer - SDL is a library that allows
 	  programs portable low level access to a video framebuffer,

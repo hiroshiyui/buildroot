@@ -1,10 +1,10 @@
-# Buildroot stuff
-dl/
-output/
-.config.*
-..config.tmp
-
-# Object files
+/output
+/dl
+/.auto.deps
+/.config.cmd
+/.config.old
+/..config.tmp
+*.depend
 *.o
 *.ko
 *.obj
