@@ -1,3 +1,5 @@
-# md5 from https://pypi.python.org/pypi/requests-toolbelt/json, sha256 locally computed
-md5	bfe2009905f460f4764c32cfbbf4205f  requests-toolbelt-0.7.0.tar.gz
-sha256	33899d4a559c3f0f5e9fbc115d337c4236febdc083755a160a4132d92fc3c91a  requests-toolbelt-0.7.0.tar.gz
+# md5, sha256 from https://pypi.org/pypi/requests-toolbelt/json
+md5	b1509735c4b4cf95df2619facbc3672e  requests-toolbelt-0.9.1.tar.gz
+sha256	968089d4584ad4ad7c171454f0a5c6dac23971e9472521ea3b6d49d610aa6fc0  requests-toolbelt-0.9.1.tar.gz
+# Locally computed sha256 checksums
+sha256	3a1a3cffa7abc000cbd726a664f56c33c532a55480f9e056dfe941cf93b7c37f  LICENSE

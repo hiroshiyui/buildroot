@@ -7,7 +7,7 @@
 SDL_VERSION = 1.2.15
 SDL_SOURCE = SDL-$(SDL_VERSION).tar.gz
 SDL_SITE = http://www.libsdl.org/release
-SDL_LICENSE = LGPLv2.1+
+SDL_LICENSE = LGPL-2.1+
 SDL_LICENSE_FILES = COPYING
 SDL_INSTALL_STAGING = YES
 SDL_DEPENDENCIES = rpi-userland rpi-firmware
@@ -24,6 +24,8 @@ HOST_SDL_PRE_CONFIGURE_HOOKS += SDL_RUN_AUTOGEN
 SDL_DEPENDENCIES += host-automake host-autoconf host-libtool
 HOST_SDL_DEPENDENCIES += host-automake host-autoconf host-libtool
 
+SDL_CONF_OPTS += --enable-video-qtopia=no
+
 ifeq ($(BR2_PACKAGE_SDL_FBCON),y)
 SDL_CONF_OPTS += --enable-video-fbcon=yes
 else
@@ -36,13 +38,6 @@ SDL_CONF_OPTS += --enable-video-directfb=yes
 SDL_CONF_ENV = ac_cv_path_DIRECTFBCONFIG=$(STAGING_DIR)/usr/bin/directfb-config
 else
 SDL_CONF_OPTS += --enable-video-directfb=no
-endif
-
-ifeq ($(BR2_PACKAGE_SDL_QTOPIA),y)
-SDL_CONF_OPTS += --enable-video-qtopia=yes
-SDL_DEPENDENCIES += qt
-else
-SDL_CONF_OPTS += --enable-video-qtopia=no
 endif
 
 ifeq ($(BR2_PACKAGE_SDL_X11),y)

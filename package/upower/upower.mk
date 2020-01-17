@@ -4,17 +4,17 @@
 #
 ################################################################################
 
-UPOWER_VERSION = 0.99.4
+UPOWER_VERSION = 0.99.11
 UPOWER_SOURCE = upower-$(UPOWER_VERSION).tar.xz
 UPOWER_SITE = https://upower.freedesktop.org/releases
-UPOWER_LICENSE = GPLv2+
+UPOWER_LICENSE = GPL-2.0+
 UPOWER_LICENSE_FILES = COPYING
 
 # libupower-glib.so
 UPOWER_INSTALL_STAGING = YES
 
 UPOWER_DEPENDENCIES = \
-	host-intltool \
+	$(TARGET_NLS_DEPENDENCIES) \
 	host-pkgconf \
 	libgudev \
 	libusb \

@@ -4,13 +4,13 @@
 #
 ################################################################################
 
-ELFUTILS_VERSION = 0.166
+ELFUTILS_VERSION = 0.177
 ELFUTILS_SOURCE = elfutils-$(ELFUTILS_VERSION).tar.bz2
-ELFUTILS_SITE = https://fedorahosted.org/releases/e/l/elfutils/$(ELFUTILS_VERSION)
+ELFUTILS_SITE = https://sourceware.org/elfutils/ftp/$(ELFUTILS_VERSION)
 ELFUTILS_INSTALL_STAGING = YES
-ELFUTILS_LICENSE = GPLv2+ or LGPLv3+ (library)
-ELFUTILS_LICENSE_FILES = COPYING-GPLV2 COPYING-LGPLV3
-ELFUTILS_DEPENDENCIES = zlib
+ELFUTILS_LICENSE = GPL-2.0+ or LGPL-3.0+ (library)
+ELFUTILS_LICENSE_FILES = COPYING COPYING-GPLV2 COPYING-LGPLV3
+ELFUTILS_DEPENDENCIES = zlib $(TARGET_NLS_DEPENDENCIES)
 HOST_ELFUTILS_DEPENDENCIES = host-zlib host-bzip2 host-xz
 
 # We patch configure.ac
@@ -20,11 +20,9 @@ HOST_ELFUTILS_AUTORECONF = YES
 # Pass a custom program prefix to avoid a naming conflict between
 # elfutils binaries and binutils binaries.
 ELFUTILS_CONF_OPTS += \
-	--disable-werror \
 	--program-prefix="eu-"
 
 HOST_ELFUTILS_CONF_OPTS = \
-	--disable-werror \
 	--with-bzlib \
 	--with-lzma \
 	--disable-progs
@@ -42,12 +40,12 @@ ELFUTILS_CONF_ENV += \
 	CFLAGS="$(ELFUTILS_CFLAGS)" \
 	CPPFLAGS="$(ELFUTILS_CPPFLAGS)"
 
-ELFUTILS_LDFLAGS = $(TARGET_LDFLAGS)
+ELFUTILS_LDFLAGS = $(TARGET_LDFLAGS) \
+	$(TARGET_NLS_LIBS)
 
-# Unconditionnally requires gettext.
-ifeq ($(BR2_NEEDS_GETTEXT),y)
-ELFUTILS_DEPENDENCIES += gettext
-ELFUTILS_LDFLAGS += -lintl
+ifeq ($(BR2_TOOLCHAIN_USES_GLIBC),)
+ELFUTILS_DEPENDENCIES += musl-fts
+ELFUTILS_LDFLAGS += -lfts
 endif
 
 ELFUTILS_CONF_ENV += \
@@ -74,7 +72,7 @@ endif
 
 ifeq ($(BR2_PACKAGE_ELFUTILS_PROGS),y)
 ELFUTILS_CONF_OPTS += --enable-progs
-ELFUTILS_LICENSE := $(ELFUTILS_LICENSE), GPLv3+ (programs)
+ELFUTILS_LICENSE += , GPL-3.0+ (programs)
 ELFUTILS_LICENSE_FILES += COPYING
 else
 ELFUTILS_CONF_OPTS += --disable-progs
