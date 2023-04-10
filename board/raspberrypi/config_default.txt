@@ -1,0 +1,49 @@
+# Please note that this is only a sample, we recommend you to change it to fit
+# your needs.
+# You should override this file using BR2_PACKAGE_RPI_FIRMWARE_CONFIG_FILE.
+# See http://buildroot.org/manual.html#rootfs-custom
+# and http://elinux.org/RPiconfig for a description of config.txt syntax
+
+start_file=start.elf
+fixup_file=fixup.dat
+
+kernel=zImage
+
+# To use an external initramfs file
+#initramfs rootfs.cpio.gz
+
+# Disable overscan assuming the display supports displaying the full resolution
+# If the text shown on the screen disappears off the edge, comment this out
+disable_overscan=1
+
+# How much memory in MB to assign to the GPU on Pi models having
+# 256, 512 or 1024 MB total memory
+gpu_mem_256=64
+gpu_mem_512=128
+gpu_mem_1024=256
+
+# Force the monitor to HDMI mode so that sound will be sent over HDMI cable
+hdmi_drive=2
+# Set monitor mode 1: CEA, 2:DMT
+hdmi_group=1
+# 4: 720p/60 Hz in CEA mode
+hdmi_mode=4
+
+# if set to 1, avoids the rainbow splash screen on boot
+disable_splash=1
+
+# Overclock settings
+arm_freq=800
+core_freq=250
+sdram_freq=500
+temp_limit=85
+force_turbo=1
+
+# Set to "on" to enable the onboard ALSA audio interface (default "off")
+dtparam=audio=on
+
+# Set to "on" to enable the hardware watchdog (default "off")
+dtparam=watchdog=off
+
+# enable DT diagnostic output
+dtdebug=off
