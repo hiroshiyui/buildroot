@@ -4,10 +4,12 @@
 #
 ################################################################################
 
-PROFTPD_VERSION = 1.3.6b
-PROFTPD_SITE = $(call github,proftpd,proftpd,v$(PROFTPD_VERSION))
+PROFTPD_VERSION = 1.3.8
+PROFTPD_SITE = ftp://ftp.proftpd.org/distrib/source
 PROFTPD_LICENSE = GPL-2.0+
 PROFTPD_LICENSE_FILES = COPYING
+PROFTPD_CPE_ID_VENDOR = proftpd
+PROFTPD_SELINUX_MODULES = ftp
 
 PROFTPD_CONF_ENV = \
 	ac_cv_func_setpgrp_void=yes \
@@ -24,6 +26,24 @@ PROFTPD_CONF_OPTS = \
 	--enable-shadow \
 	--with-gnu-ld \
 	--without-openssl-cmdline
+
+ifeq ($(BR2_PACKAGE_LIBIDN2),y)
+PROFTPD_DEPENDENCIES += libidn2
+endif
+
+ifeq ($(BR2_PACKAGE_PCRE2),y)
+PROFTPD_CONF_OPTS += --enable-pcre2
+PROFTPD_DEPENDENCIES += pcre2
+else
+PROFTPD_CONF_OPTS += --disable-pcre2
+endif
+
+ifeq ($(BR2_PACKAGE_PROFTPD_MOD_CAP),y)
+PROFTPD_CONF_OPTS += --enable-cap
+PROFTPD_DEPENDENCIES += libcap
+else
+PROFTPD_CONF_OPTS += --disable-cap
+endif
 
 ifeq ($(BR2_PACKAGE_PROFTPD_MOD_REWRITE),y)
 PROFTPD_MODULES += mod_rewrite
@@ -51,6 +71,10 @@ endif
 ifeq ($(BR2_PACKAGE_PROFTPD_MOD_SQL_SQLITE),y)
 PROFTPD_MODULES += mod_sql_sqlite
 PROFTPD_DEPENDENCIES += sqlite
+endif
+
+ifeq ($(BR2_PACKAGE_PROFTPD_MOD_SFTP_SQL),y)
+PROFTPD_MODULES += mod_sftp_sql
 endif
 
 ifeq ($(BR2_PACKAGE_PROFTPD_MOD_QUOTATAB),y)
@@ -84,12 +108,6 @@ define PROFTPD_USE_LLU
 	$(SED) 's/HAVE_LU/HAVE_LLU/' $(@D)/configure
 endef
 PROFTPD_PRE_CONFIGURE_HOOKS += PROFTPD_USE_LLU
-
-define PROFTPD_MAKENAMES
-	$(MAKE1) CC="$(HOSTCC)" CFLAGS="" LDFLAGS="" -C $(@D)/lib/libcap _makenames
-endef
-
-PROFTPD_POST_CONFIGURE_HOOKS = PROFTPD_MAKENAMES
 
 PROFTPD_MAKE = $(MAKE1)
 
