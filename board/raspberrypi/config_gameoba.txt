@@ -33,4 +33,3 @@ over_voltage=2
 over_voltage_sdram=2
 
 dtparam=audio=on
-dtoverlay=vc4-kms-v3d
